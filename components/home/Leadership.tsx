@@ -1,57 +1,67 @@
-import Container from "@/components/layout/Container";
-import { UserRound } from "lucide-react";
+"use client";
 
-const leaders = [
-  {
-    name: "President",
-    role: "Youth Fellowship President",
-  },
-  {
-    name: "Vice President",
-    role: "Vice President",
-  },
-  {
-    name: "Secretary",
-    role: "Secretary",
-  },
-];
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { supabase } from "@/lib/supabase/client";
+import { Leader } from "@/types/leader";
+import Container from "@/components/layout/Container";
+import SectionTitle from "@/components/layout/SectionTitle";
 
 export default function Leadership() {
+  const [leaders, setLeaders] = useState<Leader[]>([]);
+
+  useEffect(() => {
+    async function fetchLeaders() {
+      const { data } = await supabase
+        .from("leaders")
+        .select("*")
+        .order("order_index", { ascending: true });
+      setLeaders(data || []);
+    }
+    fetchLeaders();
+  }, []);
+
   return (
-    <section className="py-24 bg-white">
+    <section className="bg-white py-24">
       <Container>
-        <div className="text-center">
-          <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-800">
-            Leadership
-          </span>
+        <SectionTitle
+          badge="Leadership"
+          title="Meet Our Leadership Team"
+          description="Dedicated leaders serving the fellowship with faith, humility, and commitment."
+        />
 
-          <h2 className="mt-6 text-4xl font-bold">
-            Meet Our Leadership Team
-          </h2>
-
-          <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
-            Dedicated leaders serving the fellowship with faith, humility,
-            and commitment.
-          </p>
-        </div>
-
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {leaders.map((leader) => (
             <div
-              key={leader.role}
-              className="rounded-2xl border p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
+              key={leader.id}
+              className="group text-center rounded-2xl border p-6 shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
             >
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-slate-100">
-                <UserRound className="h-12 w-12 text-blue-700" />
+              <div className="relative mx-auto h-28 w-28 overflow-hidden rounded-full bg-slate-100">
+                {leader.photo_url ? (
+                  <Image
+                    src={leader.photo_url}
+                    alt={leader.full_name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-blue-50">
+                    <span className="text-3xl font-bold text-[#0B3D91]">
+                      {leader.full_name.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
 
-              <h3 className="mt-6 text-2xl font-semibold">
-                {leader.name}
+              <h3 className="mt-4 text-lg font-bold text-slate-900">
+                {leader.full_name}
               </h3>
-
-              <p className="mt-2 text-slate-600">
+              <p className="mt-1 text-sm font-medium text-[#0B3D91]">
                 {leader.role}
               </p>
+              {leader.phone && (
+                <p className="mt-2 text-sm text-slate-500">{leader.phone}</p>
+              )}
             </div>
           ))}
         </div>
