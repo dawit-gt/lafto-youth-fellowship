@@ -12,11 +12,12 @@ export interface Member {
   id: string;
   full_name: string;
   gender: "Male" | "Female";
-  age: number;
   phone: string;
   status: MemberStatus;
   education_level: EducationLevel;
   occupation: string;
   photo_url: string;
   bio: string;
+  birthday: string;
+  age: number;
 }
