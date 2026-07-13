@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Container from "@/components/layout/Container";
-import { Button } from "@/components/ui/button";
 
 export default function CTA() {
   return (
@@ -16,15 +15,12 @@ export default function CTA() {
             and serve our community together.
           </p>
 
-          <Button
-            asChild
-            variant="secondary"
-            className="mt-10"
+          <Link
+            href="/contact"
+            className="mt-10 inline-block rounded-xl bg-white px-8 py-3 font-medium text-[#0B3D91] hover:bg-blue-50 transition"
           >
-            <Link href="/contact">
-              Contact Us
-            </Link>
-          </Button>
+            Contact Us
+          </Link>
         </div>
       </Container>
     </section>
