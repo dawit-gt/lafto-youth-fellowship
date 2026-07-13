@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { ArrowLeft, Upload } from "lucide-react";
+import {
+  ETHIOPIAN_MONTHS,
+  ETHIOPIAN_DAYS,
+  ETHIOPIAN_YEARS,
+  calculateAgeFromEthiopian,
+} from "@/lib/ethiopian-date";
 
 const EDUCATION_LEVELS = [
   "Grade 1", "Grade 2", "Grade 3", "Grade 4",
@@ -25,13 +31,18 @@ export default function EditMemberPage() {
   const [form, setForm] = useState({
     full_name: "",
     gender: "Male",
-    age: "",
     phone: "",
     status: "Student",
     education_level: "",
     occupation: "",
     bio: "",
     photo_url: "",
+  });
+
+  const [birthday, setBirthday] = useState({
+    day: "1",
+    month: "1",
+    year: "2000",
   });
 
   useEffect(() => {
@@ -48,7 +59,6 @@ export default function EditMemberPage() {
         setForm({
           full_name: data.full_name || "",
           gender: data.gender || "Male",
-          age: data.age?.toString() || "",
           phone: data.phone || "",
           status: data.status || "Student",
           education_level: data.education_level || "",
@@ -57,6 +67,12 @@ export default function EditMemberPage() {
           photo_url: data.photo_url || "",
         });
         setPhotoPreview(data.photo_url || "");
+
+        // Parse existing birthday
+        if (data.birthday) {
+          const [day, month, year] = data.birthday.split("/");
+          setBirthday({ day, month, year });
+        }
       }
       setFetching(false);
     }
@@ -102,18 +118,22 @@ export default function EditMemberPage() {
         photo_url = urlData.publicUrl;
       }
 
+      const birthdayString = `${birthday.day}/${birthday.month}/${birthday.year}`;
+      const age = calculateAgeFromEthiopian(birthdayString);
+
       const { error: updateError } = await supabase
         .from("members")
         .update({
           full_name: form.full_name,
           gender: form.gender,
-          age: parseInt(form.age),
+          age,
           phone: form.phone,
           status: form.status,
           education_level: form.education_level || null,
           occupation: form.occupation,
           bio: form.bio,
           photo_url,
+          birthday: birthdayString,
         })
         .eq("id", id);
 
@@ -127,6 +147,10 @@ export default function EditMemberPage() {
       setLoading(false);
     }
   }
+
+  const previewAge = calculateAgeFromEthiopian(
+    `${birthday.day}/${birthday.month}/${birthday.year}`
+  );
 
   if (fetching) {
     return (
@@ -191,32 +215,56 @@ export default function EditMemberPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Gender *</label>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">Gender *</label>
+              <select
+                name="gender"
+                value={form.gender}
+                onChange={handleChange}
+                className="w-full rounded-xl border px-4 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
+              >
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+
+            {/* Birthday - Ethiopian Calendar */}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">
+                Birthday (Ethiopian Calendar) *
+              </label>
+              <div className="grid grid-cols-3 gap-3">
                 <select
-                  name="gender"
-                  value={form.gender}
-                  onChange={handleChange}
-                  className="w-full rounded-xl border px-4 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
+                  value={birthday.day}
+                  onChange={(e) => setBirthday({ ...birthday, day: e.target.value })}
+                  className="rounded-xl border px-3 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
                 >
-                  <option>Male</option>
-                  <option>Female</option>
+                  {ETHIOPIAN_DAYS.map((d) => (
+                    <option key={d} value={d}>{d}</option>
+                  ))}
+                </select>
+                <select
+                  value={birthday.month}
+                  onChange={(e) => setBirthday({ ...birthday, month: e.target.value })}
+                  className="rounded-xl border px-3 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
+                >
+                  {ETHIOPIAN_MONTHS.map((m, i) => (
+                    <option key={i} value={i + 1}>{m}</option>
+                  ))}
+                </select>
+                <select
+                  value={birthday.year}
+                  onChange={(e) => setBirthday({ ...birthday, year: e.target.value })}
+                  className="rounded-xl border px-3 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
+                >
+                  {ETHIOPIAN_YEARS.map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
                 </select>
               </div>
-              <div>
-                <label className="mb-1 block text-sm font-medium text-slate-700">Age *</label>
-                <input
-                  name="age"
-                  type="number"
-                  required
-                  min={5}
-                  max={99}
-                  value={form.age}
-                  onChange={handleChange}
-                  className="w-full rounded-xl border px-4 py-3 text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
-                />
-              </div>
+              <p className="mt-2 text-sm text-[#0B3D91] font-medium">
+                Age: {previewAge} years old
+              </p>
             </div>
 
             <div>
