@@ -75,21 +75,25 @@ export default function DashboardPage() {
           <p className="text-sm text-slate-500">Lafto Mekaneyesus Youth Fellowship</p>
         </div>
         <div className="flex items-center gap-3">
-<div className="flex items-center gap-3">
-  <button
-    onClick={() => router.push("/dashboard/members/add")}
-    className="flex items-center gap-2 rounded-xl bg-[#0B3D91] px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
-  >
-    <Plus size={16} />
-    Add Member
-  </button>
-  <button
-    onClick={() => router.push("/dashboard/leaders")}
-    className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
-  >
-    Manage Leaders
-  </button>
-</div>
+          <button
+            onClick={() => router.push("/dashboard/members/add")}
+            className="flex items-center gap-2 rounded-xl bg-[#0B3D91] px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+          >
+            <Plus size={16} />
+            Add Member
+          </button>
+          <button
+            onClick={() => router.push("/dashboard/leaders")}
+            className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+          >
+            Manage Leaders
+          </button>
+          <button
+            onClick={() => router.push("/dashboard/events")}
+            className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+          >
+            Manage Events
+          </button>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
