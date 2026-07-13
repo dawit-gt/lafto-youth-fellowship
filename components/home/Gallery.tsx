@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
 import SectionTitle from "@/components/layout/SectionTitle";
-import { Button } from "@/components/ui/button";
 
 const images = [
   "/gallery/gallery-1.jpg",
@@ -41,11 +40,12 @@ export default function Gallery() {
         </div>
 
         <div className="mt-12 text-center">
-          <Button asChild>
-            <Link href="/gallery">
-              View Full Gallery
-            </Link>
-          </Button>
+          <Link
+            href="/gallery"
+            className="inline-block rounded-xl bg-[#0B3D91] px-8 py-3 font-medium text-white hover:bg-blue-700 transition"
+          >
+            View Full Gallery
+          </Link>
         </div>
       </Container>
     </section>
