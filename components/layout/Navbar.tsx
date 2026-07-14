@@ -53,7 +53,9 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:block">
-            <Button>Admin Login</Button>
+            <Link href="/login">
+              <Button>Admin Login</Button>
+            </Link>
           </div>
 
           <button className="lg:hidden">
