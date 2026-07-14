@@ -24,34 +24,34 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
       <Container>
-        <nav className="flex h-20 items-center justify-between">
+        <nav className="flex h-16 items-center justify-between">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src="/logo.png"
               alt="Hayalan Serawit Logo"
-              width={55}
-              height={55}
+              width={40}
+              height={40}
               priority
             />
-            <div className="hidden sm:block">
-              <h1 className="text-lg font-bold text-[#0B3D91]">
+            <div>
+              <h1 className="text-sm font-bold text-[#0B3D91] leading-tight">
                 ሀያላን ሠራዊት
               </h1>
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-500 leading-tight">
                 Lafto Mekaneyesus Youth
               </p>
             </div>
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden items-center gap-8 lg:flex">
+          <div className="hidden items-center gap-6 lg:flex">
             {navLinks.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`font-medium transition hover:text-[#0B3D91] ${
+                className={`text-sm font-medium transition hover:text-[#0B3D91] ${
                   pathname === item.href
                     ? "text-[#0B3D91]"
                     : "text-slate-700"
@@ -65,7 +65,7 @@ export default function Navbar() {
           {/* Desktop Admin Button */}
           <div className="hidden lg:block">
             <Link href="/login">
-              <Button>Admin Login</Button>
+              <Button size="sm">Admin Login</Button>
             </Link>
           </div>
 
@@ -74,7 +74,7 @@ export default function Navbar() {
             className="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition"
             onClick={() => setOpen(!open)}
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
 
         </nav>
@@ -82,13 +82,13 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="lg:hidden border-t bg-white px-6 py-4 space-y-1">
+        <div className="lg:hidden border-t bg-white px-4 py-3 space-y-1">
           {navLinks.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               onClick={() => setOpen(false)}
-              className={`block rounded-xl px-4 py-3 font-medium transition hover:bg-slate-50 hover:text-[#0B3D91] ${
+              className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition hover:bg-slate-50 hover:text-[#0B3D91] ${
                 pathname === item.href
                   ? "bg-blue-50 text-[#0B3D91]"
                   : "text-slate-700"
@@ -97,9 +97,9 @@ export default function Navbar() {
               {item.name}
             </Link>
           ))}
-          <div className="pt-3 border-t">
+          <div className="pt-2 border-t">
             <Link href="/login" onClick={() => setOpen(false)}>
-              <Button className="w-full">Admin Login</Button>
+              <Button size="sm" className="w-full">Admin Login</Button>
             </Link>
           </div>
         </div>
