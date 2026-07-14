@@ -13,23 +13,42 @@ import {
   Plus,
   Pencil,
   Trash2,
+  Search,
 } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [members, setMembers] = useState<Member[]>([]);
+  const [filtered, setFiltered] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [activeStatus, setActiveStatus] = useState("All");
 
   useEffect(() => {
     checkAuth();
     fetchMembers();
   }, []);
 
+  useEffect(() => {
+    let result = members;
+
+    if (activeStatus !== "All") {
+      result = result.filter((m) => m.status === activeStatus);
+    }
+
+    if (search.trim() !== "") {
+      result = result.filter((m) =>
+        m.full_name.toLowerCase().includes(search.toLowerCase()) ||
+        m.phone.includes(search)
+      );
+    }
+
+    setFiltered(result);
+  }, [search, activeStatus, members]);
+
   async function checkAuth() {
     const { data } = await supabase.auth.getSession();
-    if (!data.session) {
-      router.push("/login");
-    }
+    if (!data.session) router.push("/login");
   }
 
   async function fetchMembers() {
@@ -39,7 +58,10 @@ export default function DashboardPage() {
       .order("full_name", { ascending: true });
 
     if (error) console.error(error);
-    else setMembers(data || []);
+    else {
+      setMembers(data || []);
+      setFiltered(data || []);
+    }
     setLoading(false);
   }
 
@@ -69,12 +91,12 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-slate-50">
 
       {/* Top Bar */}
-      <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
+      <div className="bg-white border-b px-6 py-4 flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-xl font-bold text-slate-900">Admin Dashboard</h1>
           <p className="text-sm text-slate-500">Lafto Mekaneyesus Youth Fellowship</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={() => router.push("/dashboard/members/add")}
             className="flex items-center gap-2 rounded-xl bg-[#0B3D91] px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
@@ -141,15 +163,49 @@ export default function DashboardPage() {
 
         {/* Members Table */}
         <div className="rounded-2xl bg-white shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b flex items-center justify-between">
+          <div className="px-6 py-4 border-b flex items-center justify-between flex-wrap gap-3">
             <h2 className="font-semibold text-slate-900">All Members</h2>
-            <span className="text-sm text-slate-500">{total} total</span>
+            <span className="text-sm text-slate-500">
+              Showing {filtered.length} of {total}
+            </span>
+          </div>
+
+          {/* Search and Filter */}
+          <div className="px-6 py-4 border-b flex flex-wrap gap-3 items-center">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                size={16}
+              />
+              <input
+                type="text"
+                placeholder="Search by name or phone..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border py-2 pl-9 pr-4 text-sm text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91]"
+              />
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {["All", "Student", "Employed", "Unemployed"].map((status) => (
+                <button
+                  key={status}
+                  onClick={() => setActiveStatus(status)}
+                  className={`rounded-full px-4 py-2 text-xs font-medium transition ${
+                    activeStatus === status
+                      ? "bg-[#0B3D91] text-white"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {status}
+                </button>
+              ))}
+            </div>
           </div>
 
           {loading ? (
             <div className="p-8 text-center text-slate-500">Loading...</div>
-          ) : members.length === 0 ? (
-            <div className="p-8 text-center text-slate-500">No members yet. Add your first member.</div>
+          ) : filtered.length === 0 ? (
+            <div className="p-8 text-center text-slate-500">No members found.</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -165,7 +221,7 @@ export default function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {members.map((member) => (
+                  {filtered.map((member) => (
                     <tr key={member.id} className="hover:bg-slate-50 transition">
                       <td className="px-6 py-4 font-medium text-slate-900">{member.full_name}</td>
                       <td className="px-6 py-4 text-slate-600">{member.gender}</td>
