@@ -23,8 +23,6 @@ export default function AboutPage() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-
-      {/* Hero */}
       <section className="bg-[#0B3D91] py-24 text-white">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
@@ -35,15 +33,14 @@ export default function AboutPage() {
               ሀያላን ሠራዊት ላፍቶ መካነ ኢየሱስ ወጣቶች
             </h1>
             <p className="mt-6 text-lg text-blue-100">
-              EECMY Lafto Mekaneyesus Congregation Youth Fellowship —
-              a community of young people growing together in faith,
-              friendship, and service.
+              EECMY Lafto Mekaneyesus Congregation Youth Fellowship — a
+              community of young people growing together in faith, friendship,
+              and service.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* Who We Are */}
       <section className="py-24 bg-white">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -61,23 +58,44 @@ export default function AboutPage() {
               </p>
               <p className="mt-4 text-slate-600 leading-relaxed">
                 Through Bible studies, worship, outreach, leadership training,
-                and community service, we strive to glorify God while
-                supporting one another in every stage of life.
+                and community service, we strive to glorify God while supporting
+                one another in every stage of life.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: BookOpen, title: "Bible Study", desc: "Growing in God's Word together every week." },
-                { icon: Heart, title: "Worship", desc: "Praising God through songs and prayer." },
-                { icon: Users, title: "Community", desc: "Building friendships that encourage spiritual growth." },
-                { icon: Star, title: "Service", desc: "Serving the church and the community with love." },
+                {
+                  icon: BookOpen,
+                  title: "Bible Study",
+                  desc: "Growing in God's Word together every week.",
+                },
+                {
+                  icon: Heart,
+                  title: "Worship",
+                  desc: "Praising God through songs and prayer.",
+                },
+                {
+                  icon: Users,
+                  title: "Community",
+                  desc: "Building friendships that encourage spiritual growth.",
+                },
+                {
+                  icon: Star,
+                  title: "Service",
+                  desc: "Serving the church and the community with love.",
+                },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="rounded-2xl border p-6 shadow-sm">
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border p-6 shadow-sm"
+                  >
                     <Icon className="h-8 w-8 text-[#0B3D91]" />
-                    <h3 className="mt-3 font-bold text-slate-900">{item.title}</h3>
+                    <h3 className="mt-3 font-bold text-slate-900">
+                      {item.title}
+                    </h3>
                     <p className="mt-1 text-sm text-slate-600">{item.desc}</p>
                   </div>
                 );
@@ -87,7 +105,6 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Leadership */}
       <section className="py-24 bg-slate-50">
         <Container>
           <div className="mb-12 text-center">
@@ -98,7 +115,8 @@ export default function AboutPage() {
               Meet Our Leadership Team
             </h2>
             <p className="mt-3 text-slate-600">
-              Dedicated leaders serving the fellowship with faith, humility, and commitment.
+              Dedicated leaders serving the fellowship with faith, humility, and
+              commitment.
             </p>
           </div>
 
@@ -124,8 +142,12 @@ export default function AboutPage() {
                     </div>
                   )}
                 </div>
-                <h3 className="mt-4 font-bold text-slate-900">{leader.full_name}</h3>
-                <p className="mt-1 text-sm font-medium text-[#0B3D91]">{leader.role}</p>
+                <h3 className="mt-4 font-bold text-slate-900">
+                  {leader.full_name}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-[#0B3D91]">
+                  {leader.role}
+                </p>
                 {leader.phone && (
                   <p className="mt-2 text-sm text-slate-500">{leader.phone}</p>
                 )}
@@ -135,5 +157,43 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Church Info */}
-      <section
+      <section className="py-24 bg-white">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-[#0B3D91]">
+              Our Church
+            </span>
+            <h2 className="mt-4 text-3xl font-bold text-slate-900">
+              EECMY Lafto Mekaneyesus Congregation
+            </h2>
+            <p className="mt-4 text-slate-600 leading-relaxed">
+              We are part of the Ethiopian Evangelical Church Mekane Yesus, one
+              of the largest Lutheran churches in the world. Our congregation is
+              located in the Lafto area of Addis Ababa, Ethiopia.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 text-slate-600">
+              <p>Lafto, Addis Ababa, Ethiopia</p>
+              <p>0950236535</p>
+              <a
+                href={"https://t.me/+_ylPiiNclAVhZTQ0"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 rounded-xl bg-[#229ED9] px-6 py-3 font-medium text-white hover:bg-[#1a8dbf] transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                >
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.88 13.67l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.832.941z" />
+                </svg>
+                Join our Telegram Group
+              </a>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </main>
+  );
+}
