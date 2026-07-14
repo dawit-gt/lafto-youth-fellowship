@@ -66,13 +66,13 @@ export default function ContactPage() {
           {/* Map */}
           <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-2xl shadow-lg">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3941.0!2d38.7!3d8.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTQnMDAuMCJOIDM4wrA0MicwMC4wIkU!5e0!3m2!1sen!2set!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3756.4762922493787!2d38.7427885!3d8.95177!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b83259aa2f5fd%3A0x25d7ba79eeb982c1!2sLafto%20Mekane%20Yesus%20congregation!5e1!3m2!1sen!2set!4v1784009744115!5m2!1sen!2set"
               width="100%"
-              height="400"
+              height="450"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+              referrerPolicy="strict-origin-when-cross-origin"
             />
           </div>
 
