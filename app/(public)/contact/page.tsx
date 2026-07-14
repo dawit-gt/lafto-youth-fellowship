@@ -1,12 +1,37 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Container from "@/components/layout/Container";
 import { MapPin, Phone, MessageCircle } from "lucide-react";
 
 export default function ContactPage() {
+  const [settings, setSettings] = useState({
+    contact_phone: "0950236535",
+    contact_address: "Lafto, Addis Ababa, Ethiopia",
+    contact_telegram: "https://t.me/+_ylPiiNclAVhZTQ0",
+  });
+
+  useEffect(() => {
+    async function fetchSettings() {
+      const { supabase } = await import("@/lib/supabase/client");
+      const { data } = await supabase
+        .from("site_settings")
+        .select("key, value")
+        .in("key", ["contact_phone", "contact_address", "contact_telegram"]);
+
+      if (data) {
+        const map: Record<string, string> = {};
+        data.forEach((item) => {
+          map[item.key] = item.value;
+        });
+        setSettings((prev) => ({ ...prev, ...map }));
+      }
+    }
+    fetchSettings();
+  }, []);
+
   return (
     <main className="min-h-screen bg-slate-50">
-      {/* Hero */}
       <section className="bg-[#0B3D91] py-24 text-white">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
@@ -22,38 +47,32 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* Contact Cards */}
       <section className="py-24 bg-white">
         <Container>
           <div className="mx-auto max-w-3xl grid gap-6 sm:grid-cols-3">
-            {/* Phone */}
             <div className="rounded-2xl border p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
                 <Phone className="h-6 w-6 text-[#0B3D91]" />
               </div>
               <h3 className="mt-4 font-bold text-slate-900">Phone</h3>
-              <p className="mt-2 text-slate-600">0950236535</p>
+              <p className="mt-2 text-slate-600">{settings.contact_phone}</p>
             </div>
 
-            {/* Location */}
             <div className="rounded-2xl border p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
                 <MapPin className="h-6 w-6 text-[#0B3D91]" />
               </div>
               <h3 className="mt-4 font-bold text-slate-900">Location</h3>
-              <p className="mt-2 text-slate-600">
-                Lafto, Addis Ababa, Ethiopia
-              </p>
+              <p className="mt-2 text-slate-600">{settings.contact_address}</p>
             </div>
 
-            {/* Telegram */}
             <div className="rounded-2xl border p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
                 <MessageCircle className="h-6 w-6 text-[#0B3D91]" />
               </div>
               <h3 className="mt-4 font-bold text-slate-900">Telegram</h3>
               <a
-                href={"https://t.me/+_ylPiiNclAVhZTQ0"}
+                href={settings.contact_telegram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 inline-block text-[#0B3D91] hover:underline"
@@ -63,7 +82,6 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Map */}
           <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-2xl shadow-lg">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3756.4762922493787!2d38.7427885!3d8.95177!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b83259aa2f5fd%3A0x25d7ba79eeb982c1!2sLafto%20Mekane%20Yesus%20congregation!5e1!3m2!1sen!2set!4v1784009744115!5m2!1sen!2set"
@@ -76,16 +94,14 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* Telegram CTA */}
           <div className="mx-auto mt-12 max-w-3xl rounded-2xl bg-[#0B3D91] p-10 text-center text-white">
             <h2 className="text-2xl font-bold">Join Our Community</h2>
             <p className="mt-3 text-blue-100">
               Stay updated with fellowship news, events, and announcements by
               joining our Telegram group.
             </p>
-
             <a
-              href={"https://t.me/+_ylPiiNclAVhZTQ0"}
+              href={settings.contact_telegram}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#229ED9] px-8 py-3 font-medium text-white hover:bg-[#1a8dbf] transition"
