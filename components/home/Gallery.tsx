@@ -1,18 +1,30 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
+import { GalleryPhoto } from "@/types/gallery";
 import Container from "@/components/layout/Container";
 import SectionTitle from "@/components/layout/SectionTitle";
 
-const images = [
-  "/gallery/gallery-1.jpg",
-  "/gallery/gallery-2.jpg",
-  "/gallery/gallery-3.jpg",
-  "/gallery/gallery-4.jpg",
-  "/gallery/gallery-5.jpg",
-  "/gallery/gallery-6.jpg",
-];
-
 export default function Gallery() {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+
+  useEffect(() => {
+    async function fetchPhotos() {
+      const { data } = await supabase
+        .from("gallery")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(6);
+      setPhotos(data || []);
+    }
+    fetchPhotos();
+  }, []);
+
+  if (photos.length === 0) return null;
+
   return (
     <section className="bg-slate-50 py-24">
       <Container>
@@ -23,18 +35,19 @@ export default function Gallery() {
         />
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {images.map((image, index) => (
+          {photos.map((photo) => (
             <div
-              key={index}
-              className="group overflow-hidden rounded-2xl"
+              key={photo.id}
+              className="group overflow-hidden rounded-2xl bg-slate-100"
             >
-              <Image
-                src={image}
-                alt={`Gallery ${index + 1}`}
-                width={500}
-                height={500}
-                className="h-64 w-full object-cover transition duration-500 group-hover:scale-110"
-              />
+              <div className="relative h-64 w-full">
+                <Image
+                  src={photo.photo_url}
+                  alt={photo.caption || "Gallery photo"}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-110"
+                />
+              </div>
             </div>
           ))}
         </div>
