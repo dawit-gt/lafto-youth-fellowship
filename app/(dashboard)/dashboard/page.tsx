@@ -101,6 +101,12 @@ export default function DashboardPage() {
             Manage Gallery
           </button>
           <button
+            onClick={() => router.push("/dashboard/settings")}
+            className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+          >
+            Settings
+          </button>
+          <button
             onClick={handleLogout}
             className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
           >
