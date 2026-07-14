@@ -22,7 +22,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md relative">
       <Container>
         <nav className="flex h-16 items-center justify-between">
 
@@ -78,10 +78,10 @@ export default function Navbar() {
         </nav>
       </Container>
 
-      {/* Mobile Menu — compact dropdown, not full width */}
+      {/* Mobile Menu — compact dropdown aligned right */}
       {open && (
-        <div className="lg:hidden border-t bg-white">
-          <div className="mx-auto max-w-xs px-4 py-3 space-y-1">
+        <div className="lg:hidden absolute right-4 top-16 w-56 border rounded-xl bg-white shadow-lg z-50">
+          <div className="px-3 py-3 space-y-1">
             {navLinks.map((item) => (
               <Link
                 key={item.name}
