@@ -42,7 +42,7 @@ export default function Statistics() {
   ];
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-12 bg-white md:py-24">
       <Container>
         <SectionTitle
           badge="Community"
@@ -50,19 +50,21 @@ export default function Statistics() {
           description="Real-time statistics from our fellowship database."
         />
 
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 md:gap-8 lg:grid-cols-4">
           {items.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="rounded-2xl border p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
+                className="rounded-2xl border p-4 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg md:p-8"
               >
-                <Icon className="mx-auto h-12 w-12 text-[#0B3D91]" />
-                <h3 className="mt-6 text-5xl font-bold text-slate-900">
+                <Icon className="mx-auto h-8 w-8 text-[#0B3D91] md:h-12 md:w-12" />
+                <h3 className="mt-3 text-3xl font-bold text-slate-900 md:mt-6 md:text-5xl">
                   {item.value}
                 </h3>
-                <p className="mt-3 text-slate-600">{item.title}</p>
+                <p className="mt-1 text-xs text-slate-600 md:mt-3 md:text-base">
+                  {item.title}
+                </p>
               </div>
             );
           })}

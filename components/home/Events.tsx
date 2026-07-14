@@ -22,7 +22,7 @@ export default function Events() {
   }, []);
 
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-12 md:py-24">
       <Container>
         <SectionTitle
           badge="Upcoming Events"
@@ -35,33 +35,32 @@ export default function Events() {
             No upcoming events at the moment.
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-4 md:gap-8 md:grid-cols-2">
             {events.map((event) => (
               <div
                 key={event.id}
-                className="rounded-2xl border p-8 shadow-sm transition hover:shadow-lg"
+                className="rounded-2xl border p-5 shadow-sm transition hover:shadow-lg md:p-8"
               >
-                <CalendarDays className="mb-4 h-10 w-10 text-[#0B3D91]" />
-
-                <h3 className="text-2xl font-bold text-slate-900">
+                <CalendarDays className="mb-3 h-7 w-7 text-[#0B3D91] md:mb-4 md:h-10 md:w-10" />
+                <h3 className="text-base font-bold text-slate-900 md:text-2xl">
                   {event.title}
                 </h3>
-
                 {event.description && (
-                  <p className="mt-3 text-slate-600">{event.description}</p>
+                  <p className="mt-2 text-xs text-slate-600 md:mt-3 md:text-base">
+                    {event.description}
+                  </p>
                 )}
-
-                <div className="mt-5 space-y-3 text-slate-600">
-                  <p className="flex items-center gap-2">
-                    <CalendarDays size={18} />
+                <div className="mt-3 space-y-2 text-slate-600 md:mt-5 md:space-y-3">
+                  <p className="flex items-center gap-2 text-xs md:text-sm">
+                    <CalendarDays size={14} />
                     {event.event_date}
                   </p>
-                  <p className="flex items-center gap-2">
-                    <Clock3 size={18} />
+                  <p className="flex items-center gap-2 text-xs md:text-sm">
+                    <Clock3 size={14} />
                     {event.event_time}
                   </p>
-                  <p className="flex items-center gap-2">
-                    <MapPin size={18} />
+                  <p className="flex items-center gap-2 text-xs md:text-sm">
+                    <MapPin size={14} />
                     {event.location}
                   </p>
                 </div>
