@@ -95,6 +95,12 @@ export default function DashboardPage() {
             Manage Events
           </button>
           <button
+            onClick={() => router.push("/dashboard/gallery")}
+            className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+          >
+            Manage Gallery
+          </button>
+          <button
             onClick={handleLogout}
             className="flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
           >
