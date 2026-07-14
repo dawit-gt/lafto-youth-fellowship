@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { GalleryPhoto } from "@/types/gallery";
-import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 export default function GalleryAdminPage() {
@@ -85,12 +85,20 @@ export default function GalleryAdminPage() {
                 {photo.caption && (
                   <p className="px-3 py-2 text-sm text-slate-600">{photo.caption}</p>
                 )}
-                <button
-                  onClick={() => handleDelete(photo.id)}
-                  className="absolute right-2 top-2 rounded-lg bg-red-500 p-2 text-white opacity-0 group-hover:opacity-100 transition"
-                >
-                  <Trash2 size={16} />
-                </button>
+                <div className="absolute right-2 top-2 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+                  <button
+                    onClick={() => router.push(`/dashboard/gallery/edit/${photo.id}`)}
+                    className="rounded-lg bg-blue-500 p-2 text-white"
+                  >
+                    <Pencil size={16} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(photo.id)}
+                    className="rounded-lg bg-red-500 p-2 text-white"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
