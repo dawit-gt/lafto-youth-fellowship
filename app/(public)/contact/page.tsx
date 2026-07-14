@@ -54,7 +54,7 @@ export default function ContactPage() {
       <section className="py-10 bg-white md:py-24">
         <Container>
           {/* Cards */}
-          <div className="mx-auto max-w-3xl grid grid-cols-1 gap-4 md:gap-6 md:grid-cols-3">
+          <div className="mx-auto max-w-3xl grid grid-cols-3 gap-3 md:gap-6">
             <div className="rounded-2xl border p-5 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg md:p-8">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 md:h-14 md:w-14">
                 <Phone className="h-5 w-5 text-[#0B3D91] md:h-6 md:w-6" />
