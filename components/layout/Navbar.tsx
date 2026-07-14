@@ -31,12 +31,12 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Hayalan Serawit Logo"
-              width={40}
-              height={40}
+              width={36}
+              height={36}
               priority
             />
             <div>
-              <h1 className="text-sm font-bold text-[#0B3D91] leading-tight">
+              <h1 className="text-xs font-bold text-[#0B3D91] leading-tight md:text-sm">
                 ሀያላን ሠራዊት
               </h1>
               <p className="text-xs text-slate-500 leading-tight">
@@ -52,9 +52,7 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 className={`text-sm font-medium transition hover:text-[#0B3D91] ${
-                  pathname === item.href
-                    ? "text-[#0B3D91]"
-                    : "text-slate-700"
+                  pathname === item.href ? "text-[#0B3D91]" : "text-slate-700"
                 }`}
               >
                 {item.name}
@@ -80,27 +78,29 @@ export default function Navbar() {
         </nav>
       </Container>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — compact dropdown, not full width */}
       {open && (
-        <div className="lg:hidden border-t bg-white px-4 py-3 space-y-1">
-          {navLinks.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition hover:bg-slate-50 hover:text-[#0B3D91] ${
-                pathname === item.href
-                  ? "bg-blue-50 text-[#0B3D91]"
-                  : "text-slate-700"
-              }`}
-            >
-              {item.name}
-            </Link>
-          ))}
-          <div className="pt-2 border-t">
-            <Link href="/login" onClick={() => setOpen(false)}>
-              <Button size="sm" className="w-full">Admin Login</Button>
-            </Link>
+        <div className="lg:hidden border-t bg-white">
+          <div className="mx-auto max-w-xs px-4 py-3 space-y-1">
+            {navLinks.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className={`block rounded-xl px-3 py-2 text-sm font-medium transition hover:bg-slate-50 hover:text-[#0B3D91] ${
+                  pathname === item.href
+                    ? "bg-blue-50 text-[#0B3D91]"
+                    : "text-slate-700"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <div className="pt-2 border-t">
+              <Link href="/login" onClick={() => setOpen(false)}>
+                <Button size="sm" className="w-full">Admin Login</Button>
+              </Link>
+            </div>
           </div>
         </div>
       )}
