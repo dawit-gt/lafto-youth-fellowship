@@ -99,6 +99,7 @@ export default function DashboardPage() {
     { label: "Leaders", action: () => router.push("/dashboard/leaders") },
     { label: "Events", action: () => router.push("/dashboard/events") },
     { label: "Gallery", action: () => router.push("/dashboard/gallery") },
+    { label: "Admins", action: () => router.push("/dashboard/admins") },
     { label: "Settings", action: () => router.push("/dashboard/settings") },
   ];
 
