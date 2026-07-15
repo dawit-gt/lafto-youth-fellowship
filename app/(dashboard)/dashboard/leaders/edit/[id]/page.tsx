@@ -50,9 +50,17 @@ export default function EditLeaderPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  const MAX_SIZE_MB = 5;
+
   function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+        setError(`Image is too large. Maximum size is ${MAX_SIZE_MB}MB.`);
+        e.target.value = "";
+        return;
+      }
+      setError("");
       setPhotoFile(file);
       setPhotoPreview(URL.createObjectURL(file));
     }
