@@ -77,7 +77,7 @@ export default function MemberProfilePage() {
 
           {/* Circular Photo */}
           <div className="flex flex-col items-center bg-gradient-to-br from-blue-50 to-slate-100 pt-8 pb-4">
-            <div className="relative h-28 w-28 overflow-hidden rounded-full border-4 border-white shadow-md md:h-36 md:w-36">
+            <div className="relative h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-md md:h-48 md:w-48">
               <Image
                 src={member.photo_url || "/default-avatar.png"}
                 alt={member.full_name}

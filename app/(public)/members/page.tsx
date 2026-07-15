@@ -118,7 +118,7 @@ export default function MembersPage() {
             <p className="mt-2 text-sm">Try a different search or filter</p>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {filtered.map((member) => (
               <MemberCard key={member.id} member={member} />
             ))}
