@@ -17,6 +17,27 @@ export default function DashboardPage() {
   const [search, setSearch] = useState("");
   const [activeStatus, setActiveStatus] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("first_az");
+
+  function sortMembers(list: Member[]): Member[] {
+    return [...list].sort((a, b) => {
+      switch (sortBy) {
+        case "first_az":
+          return a.full_name.split(" ")[0].localeCompare(b.full_name.split(" ")[0]);
+        case "last_az": {
+          const aLast = a.full_name.split(" ").slice(-1)[0];
+          const bLast = b.full_name.split(" ").slice(-1)[0];
+          return aLast.localeCompare(bLast);
+        }
+        case "age_asc":
+          return a.age - b.age;
+        case "age_desc":
+          return b.age - a.age;
+        default:
+          return 0;
+      }
+    });
+  }
 
   useEffect(() => {
     checkAuth();
@@ -34,8 +55,9 @@ export default function DashboardPage() {
         m.phone.includes(search)
       );
     }
+    result = sortMembers(result);
     setFiltered(result);
-  }, [search, activeStatus, members]);
+  }, [search, activeStatus, sortBy, members]);
 
   async function checkAuth() {
     const { data } = await supabase.auth.getSession();
@@ -45,8 +67,7 @@ export default function DashboardPage() {
   async function fetchMembers() {
     const { data, error } = await supabase
       .from("members")
-      .select("*")
-      .order("full_name", { ascending: true });
+      .select("*");
     if (error) console.error(error);
     else {
       setMembers(data || []);
@@ -124,7 +145,7 @@ export default function DashboardPage() {
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        {/* Mobile Menu — right aligned dropdown */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden absolute right-4 top-14 w-48 rounded-xl bg-white border shadow-lg z-50 py-2">
             {navItems.map((item) => (
@@ -183,17 +204,29 @@ export default function DashboardPage() {
             </span>
           </div>
 
-          {/* Search and Filter */}
-          <div className="px-4 py-3 border-b space-y-3 md:px-6 md:flex md:gap-3 md:space-y-0 md:items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-              <input
-                type="text"
-                placeholder="Search by name or phone..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-xl border py-2 pl-8 pr-4 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91] md:text-sm"
-              />
+          {/* Search, Sort and Filter */}
+          <div className="px-4 py-3 border-b space-y-3 md:px-6">
+            <div className="flex gap-2 items-center">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                <input
+                  type="text"
+                  placeholder="Search by name or phone..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full rounded-xl border py-2 pl-8 pr-4 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-[#0B3D91] md:text-sm"
+                />
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="rounded-xl border bg-white px-2 py-2 text-xs text-slate-700 outline-none focus:ring-2 focus:ring-[#0B3D91] md:text-sm shrink-0"
+              >
+                <option value="first_az">First Name (A-Z)</option>
+                <option value="last_az">Last Name (A-Z)</option>
+                <option value="age_asc">Age (Youngest)</option>
+                <option value="age_desc">Age (Oldest)</option>
+              </select>
             </div>
             <div className="flex gap-2 flex-wrap">
               {["All", "Student", "Employed", "Unemployed"].map((status) => (
