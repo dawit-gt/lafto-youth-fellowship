@@ -5,7 +5,8 @@ export type EducationLevel =
   | "Grade 5" | "Grade 6" | "Grade 7" | "Grade 8"
   | "Grade 9" | "Grade 10" | "Grade 11" | "Grade 12"
   | "University Year 1" | "University Year 2" | "University Year 3"
-  | "University Year 4" | "University Year 5"
+  | "University Year 4" | "University Year 5" | "University Year 6"
+  | "University Year 7"
   | null;
 
 export interface Member {
