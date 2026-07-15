@@ -85,7 +85,7 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-slate-50">
 
       {/* Top Bar */}
-      <div className="bg-white border-b px-4 py-3 flex items-center justify-between md:px-6 md:py-4">
+      <div className="relative bg-white border-b px-4 py-3 flex items-center justify-between md:px-6 md:py-4">
         <div>
           <h1 className="text-base font-bold text-slate-900 md:text-xl">Admin Dashboard</h1>
           <p className="text-xs text-slate-500 md:text-sm">Lafto Mekaneyesus Youth Fellowship</p>
@@ -123,33 +123,33 @@ export default function DashboardPage() {
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
-      </div>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-b px-4 py-3 space-y-2">
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              onClick={() => { item.action(); setMenuOpen(false); }}
-              className={`w-full rounded-xl px-4 py-2.5 text-sm font-medium text-left transition ${
-                item.primary
-                  ? "bg-[#0B3D91] text-white"
-                  : "border text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition"
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      )}
+        {/* Mobile Menu — right aligned dropdown */}
+        {menuOpen && (
+          <div className="md:hidden absolute right-4 top-14 w-48 rounded-xl bg-white border shadow-lg z-50 py-2">
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => { item.action(); setMenuOpen(false); }}
+                className={`w-full px-4 py-2.5 text-sm font-medium text-left transition hover:bg-slate-50 ${
+                  item.primary ? "text-[#0B3D91]" : "text-slate-600"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+            <div className="border-t mt-1 pt-1">
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="p-4 space-y-6 md:p-6 md:space-y-8">
 
